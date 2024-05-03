@@ -2,7 +2,7 @@ import multiprocessing,time,turtle,random,math,sys,copy
 
 
 
-
+#Math Operations for 2D Vectors
 def add(vec1,vec2):
   return [sum(pair) for pair in zip(vec1, vec2)]
 
@@ -16,6 +16,7 @@ def dot(vec1, vec2):
 
 def length(vec):
     return math.sqrt(sum(i ** 2 for i in vec))
+
 
 class Point:
   def __init__(self, pos=[0, 0], v=[0, 0], a=[0, 0], color="black", radius=5):
@@ -92,7 +93,8 @@ class Point:
 
 
     return collided_bodies
-     
+
+  #Keep Points from Intersecting
   def resolve_collisions(self,colliding_point1,colliding_point2,dt):
     distance = math.sqrt((colliding_point2.pos[0] - colliding_point1.pos[0])**2 + (colliding_point2.pos[1] - colliding_point1.pos[1])**2)
     cd = colliding_point1.radius+colliding_point2.radius-distance
@@ -104,6 +106,7 @@ class Point:
     vt = [vt[0]*math.exp(-friction * dt),vt[1]*math.exp(-friction * dt)]
     colliding_point1.v = add(vn,vt)
 
+  #Apply Trasnformational Changes
   def update_physics(self,dt):
     self.v = add([self.a[0]*dt,self.a[1]*dt],self.v)
     self.pos = add([self.v[0]*dt,self.v[1]*dt],self.pos)
@@ -122,7 +125,8 @@ class Joint:
       self.color = color
       self.pensize = radius
       constraints.append(self)
-
+     
+   #Keep Points Connected
    def enforce_constraints(self,dt):
       delta = subtract(self.p1.pos,self.p0.pos)
       distance = length(delta)
